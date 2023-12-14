@@ -27,10 +27,18 @@ enemy_speed = 5  # Set the falling speed of the enemy
 # Game loop
 clock = pygame.time.Clock()  # Create a clock object to manage frame rate
 game_over = False  # Flag to control the game loop
+
+# To make the game pregessively harder start a speed_clock to track game time
+speed_clock=0
+
 while not game_over:
     for event in pygame.event.get():  # Check for events
         if event.type == pygame.QUIT:  # If window is closed, quit the game
             game_over = True
+
+    # Increase enemy speed as the game progresses to increase difficulty 
+    if speed_clock%50==0:
+        enemy_speed += 1
 
     # Player movement
     keys = pygame.key.get_pressed()  # Get the state of all keyboard buttons
@@ -64,6 +72,9 @@ while not game_over:
     screen.blit(player_image, (player_pos[0], player_pos[1]))  # Draw the player image
     screen.blit(enemy_image, (enemy_pos[0], enemy_pos[1]))  # Draw the enemy image
     pygame.display.update()  # Update the full display Surface to the screen
+    
+    # Increment the speed_clock by 1
+    speed_clock+=1
 
     # Cap the frame rate
     clock.tick(30)  # Keep the game running at 30 frames per second
